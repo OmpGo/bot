@@ -13,3 +13,27 @@ func (cm *Commander) Default(inputMessage *tgbotapi.Message) {
 
 	cm.bot.Send(msg)
 }
+
+func (cm *Commander) HandleUpdate(update tgbotapi.Update) {
+
+	defer func() {
+		if panicValue := recover(); panicValue != nil {
+			log.Printf("recovered from panic: %v", panicValue)
+		}
+	}()
+
+	if update.Message == nil { // If we got a message
+		return
+	}
+
+	switch update.Message.Command() {
+	case "help":
+		cm.Help(update.Message)
+	case "list":
+		cm.List(update.Message)
+	case "get":
+		cm.Get(update.Message)
+	default:
+		cm.Default(update.Message)
+	}
+}

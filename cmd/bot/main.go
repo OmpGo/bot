@@ -43,6 +43,8 @@ func main() {
 			commander.Help(update.Message)
 		case "list":
 			commander.List(update.Message)
+		case "get":
+			commander.Get(update.Message)
 		default:
 			commander.Default(update.Message)
 		}
